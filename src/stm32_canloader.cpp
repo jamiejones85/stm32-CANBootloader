@@ -79,7 +79,7 @@ static void write_flash(uint32_t addr, uint32_t *pageBuffer)
 static void send_byte(uint8_t b)
 {
    can_transmit(CAN1, NODECANID, false, false, 1, &b);
-   if (usartUpdate) usart_send_blocking(USART3, b);
+   if (usartUpdate) usart_send_blocking(UART4, b);
 }
 
 static void send_can_hello()
@@ -113,7 +113,7 @@ extern "C" int main(void)
    usart_setup();
 
    send_can_hello();
-   usart_send(USART3, '2'); //advertise version 2 as the protocol is unchanged
+   usart_send(UART4, '2'); //advertise version 2 as the protocol is unchanged
 
    wait();
 
@@ -234,11 +234,11 @@ extern "C" void usb_lp_can_rx0_isr()
    handle_data(canData, len);
 }
 
-extern "C" void usart3_isr()
+extern "C" void uart4_isr()
 {
    static uint8_t buffer[8], currentByte = 0;
 
-   uint8_t data = usart_recv(USART3);
+   uint8_t data = usart_recv(UART4);
 
    usartUpdate = true;
 

@@ -50,7 +50,7 @@ void clock_setup()
    rcc_periph_clock_enable(RCC_GPIOC);
    rcc_periph_clock_enable(RCC_CRC);
    rcc_periph_clock_enable(RCC_CAN1);
-   rcc_periph_clock_enable(RCC_USART3);
+   rcc_periph_clock_enable(RCC_UART4);
    rcc_periph_clock_enable(RCC_AFIO);
 
    rcc_wait_for_osc_ready(RCC_LSI);
@@ -113,24 +113,24 @@ void can_teardown()
 
 void usart_setup()
 {
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
-                  GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_TX);
+    gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ,
+                  GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_UART4_TX);
 
     /* Setup UART parameters. */
-    usart_set_baudrate(USART3, 115200);
-    usart_set_databits(USART3, 8);
-    usart_set_mode(USART3, USART_MODE_TX_RX);
-    usart_enable_rx_interrupt(USART3);
+    usart_set_baudrate(UART4, 115200);
+    usart_set_databits(UART4, 8);
+    usart_set_mode(UART4, USART_MODE_TX_RX);
+    usart_enable_rx_interrupt(UART4);
 
     /* Finally enable the USART. */
-    usart_enable(USART3);
-    nvic_enable_irq(NVIC_USART3_IRQ);
+    usart_enable(UART4);
+    nvic_enable_irq(NVIC_UART4_IRQ);
 }
 
 void usart_teardown()
 {
-    nvic_disable_irq(NVIC_USART3_IRQ);
-    rcc_periph_reset_pulse(RST_USART3);
+    nvic_disable_irq(NVIC_UART4_IRQ);
+    rcc_periph_reset_pulse(RST_UART4);
 }
 
 //Left over for future usage in an inverter style device..
